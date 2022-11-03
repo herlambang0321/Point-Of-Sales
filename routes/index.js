@@ -8,5 +8,9 @@ module.exports = function (db) {
     res.render('login');
   })
 
+  router.get('/register', function (req, res, next) {
+    res.render('register');
+  })
+
   return router;
 }
