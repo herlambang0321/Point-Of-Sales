@@ -37,22 +37,30 @@
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                                 <hr>
                             </div>
-                            <form class="user" action="" method="post">
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-user" id="name"
-                                        placeholder="Name" name="name">
-                                </div>
+                            <form class="user" action="/register" method="post">
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="email"
-                                        placeholder="Email Address" name="email">
+                                        placeholder="Email Address" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="name"
+                                        placeholder="Name" name="name" required>
                                 </div>
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-user" id="password"
-                                        placeholder="Password" name="password">
+                                        placeholder="Password" name="password" required>
                                 </div>
-                                <a href="/" class="btn btn-primary btn-user btn-block">
+                                <div class="form-group">
+                                    <label>Role :</label>
+                                    <select id="role" name="role" class="form-control" required>
+                                        <option value="" disabled selected>-- Pilih Role --</option>
+                                        <option>User</option>
+                                        <option>Admin</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-user btn-block">
                                     Register Account
-                                </a>
+                                </button>
                             </form>
                             <hr>
                             <div class="text-center">
@@ -63,7 +71,7 @@
                             </div>
                             <div class="text-center">
                                 <hr>
-                                <p>© 2022 Copyright By Herlambang Gunawan</p>
+                                <span>Copyright &copy; RUBICAMP 2022</span>
                                 <hr>
                             </div>
                         </div>
