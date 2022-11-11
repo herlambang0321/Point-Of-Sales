@@ -64,6 +64,12 @@ module.exports = function (db) {
     }
   })
 
+  router.get('/logout', function (req, res) {
+    req.session.destroy(function (err) {
+      res.redirect('/')
+    })
+  })
+
   router.get('/dashboard', isLoggedIn, function (req, res, next) {
     res.render('dashboard', {
       user: req.session.user
