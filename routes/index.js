@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var path = require('path')
 const bcrypt = require('bcrypt');
 const { isLoggedIn } = require('../helpers/util');
 const saltRounds = 10;
@@ -9,7 +10,8 @@ module.exports = function (db) {
 
   router.get('/', function (req, res, next) {
     res.render('login', {
-      loginMessage: req.flash('loginMessage')
+      loginMessage: req.flash('loginMessage'),
+      path: req.originalUrl
     });
   })
 
@@ -72,7 +74,9 @@ module.exports = function (db) {
 
   router.get('/dashboard', isLoggedIn, function (req, res, next) {
     res.render('dashboard', {
-      user: req.session.user
+      user: req.session.user,
+      path: req.originalUrl,
+      title: 'POS Dashboard'
     })
   })
 
