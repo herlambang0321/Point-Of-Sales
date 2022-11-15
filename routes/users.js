@@ -11,7 +11,7 @@ module.exports = function (db) {
     try {
       const { rows } = await db.query('select * from users')
 
-      res.render('users', {
+      res.render('users/list', {
         rows,
         user: req.session.user,
         successMessage: req.flash('successMessage'),
