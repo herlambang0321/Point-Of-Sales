@@ -49,7 +49,7 @@ module.exports = function (db) {
       }
 
       const hash = await bcrypt.hashSync(password, saltRounds);
-      await db.query('insert into public.users (email, name, password, role) values($1, $2, $3, $4)', [email, name, hash, role])
+      const addUsers = await db.query('insert into users (email, name, password, role) values($1, $2, $3, $4)', [email, name, hash, role])
 
       res.redirect('/users')
     } catch (err) {
