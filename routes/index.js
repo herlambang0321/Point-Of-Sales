@@ -22,7 +22,6 @@ module.exports = function (db) {
       const { rows } = await db.query('select * from users where email = $1', [email])
 
       if (rows.length == 0) {
-        // throw 'e-mail is not registered'
         req.flash('loginMessage', 'e-mail is not registered')
         return res.redirect('/')
       }
@@ -30,7 +29,6 @@ module.exports = function (db) {
       const match = await bcrypt.compare(password, rows[0].password);
 
       if (!match) {
-        // throw 'password wrong'
         req.flash('loginMessage', 'password wrong')
         return res.redirect('/')
       }
