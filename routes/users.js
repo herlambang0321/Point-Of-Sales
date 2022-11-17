@@ -101,7 +101,7 @@ module.exports = function (db) {
   router.post('/edit/:userid', isLoggedIn, async function (req, res, next) {
     try {
       const {email, name, role} = req.body
-      const editUser = await db.query('update users set email = $1, name = $2, role = $3 where userid = $4', [email, name, role, req.params.userid])
+      const { rows } = await db.query('update users set email = $1, name = $2, role = $3 where userid = $4', [email, name, role, req.params.userid])
       res.redirect('/users')
     } catch (err) {
       res.send(err)
