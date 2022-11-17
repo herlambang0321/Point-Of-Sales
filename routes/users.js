@@ -100,13 +100,24 @@ module.exports = function (db) {
 
   router.post('/edit/:userid', isLoggedIn, async function (req, res, next) {
     try {
-      const {email, name, role} = req.body
+      const { email, name, role } = req.body
       const { rows } = await db.query('update users set email = $1, name = $2, role = $3 where userid = $4', [email, name, role, req.params.userid])
       res.redirect('/users')
     } catch (err) {
       res.send(err)
     }
   })
+
+  router.get('/delete/:userid', isLoggedIn, async function (req, res, next) {
+    try {
+      const { rows } = await db.query('delete from users where userid = $1', [req.params.userid])
+
+      res.redirect('/users')
+    } catch (err) {
+      console.log(err)
+      res.send(err)
+    }
+  });
 
   return router;
 }
