@@ -48,7 +48,7 @@
     <script>
         $(document).ready(function () {
             $('#dataTable').DataTable({
-                "lengthMenu": [[3, 10, 100, -1], [3, 10, 100, "All"]],
+                "lengthMenu": [[3, 10, 100, -1], [3, 10, 100]],
                 "processing": true,
                 "serverSide": true,
                 "ajax": "/users/tableuser",
@@ -62,7 +62,7 @@
                         orderable: false,
                         render: function (data, type) {
                             return `
-                            <button type="button" dataid="${data}" class="btn btn-success btn-circle btn-edit"><i class="fas fa-fw fa-info"></i></button>
+                            <a href="users/edit/${data}" class="btn btn-success btn-circle btn-edit"><i class="fas fa-fw fa-info"></i></a>
                             <button type="button" dataid="${data}" class="btn btn-danger btn-circle btn-delete"><i class="fas fa-fw fa-trash"></i></button>
                             `
                         }

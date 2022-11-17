@@ -76,10 +76,34 @@ module.exports = function (db) {
 
       const hash = await bcrypt.hashSync(password, saltRounds);
       const addUsers = await db.query('insert into users (email, name, password, role) values($1, $2, $3, $4)', [email, name, hash, role])
-
       res.redirect('/users')
     } catch (err) {
       console.log(err)
+      res.send(err)
+    }
+  })
+
+  router.get('/edit/:userid', isLoggedIn, async function (req, res, next) {
+    try {
+      const { rows } = await db.query('select * from users where userid = $1', [req.params.userid])
+
+      res.render('users/edit', {
+        data: rows[0],
+        user: req.session.user,
+        path: req.originalUrl,
+        title: 'POS Users'
+      })
+    } catch (err) {
+      res.send(err)
+    }
+  })
+
+  router.post('/edit/:userid', isLoggedIn, async function (req, res, next) {
+    try {
+      const {email, name, role} = req.body
+      const editUser = await db.query('update users set email = $1, name = $2, role = $3 where userid = $4', [email, name, role, req.params.userid])
+      res.redirect('/users')
+    } catch (err) {
       res.send(err)
     }
   })
