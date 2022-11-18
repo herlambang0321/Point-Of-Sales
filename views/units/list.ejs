@@ -51,16 +51,16 @@
                 "serverSide": true,
                 "ajax": "/units/tableunit",
                 "columns": [
-                    { "data": "units" },
+                    { "data": "unit" },
                     { "data": "name" },
                     { "data": "note" },
                     {
-                        data: "units",
+                        data: "unit",
                         orderable: false,
                         render: function (data, type) {
                             return `
-                                <a href="users/edit/${data}" class="btn btn-success btn-circle btn-edit"><i class="fas fa-fw fa-info"></i></a>
-                                <a href="users/delete/${data}" class="btn btn-danger btn-circle btn-delete" data-toggle="modal" data-target="#deleteModal${data}"><i class="fas fa-fw fa-trash"></i></a>
+                                <a href="units/edit/${data}" class="btn btn-success btn-circle btn-edit"><i class="fas fa-fw fa-info"></i></a>
+                                <a href="units/delete/${data}" class="btn btn-danger btn-circle btn-delete" data-toggle="modal" data-target="#deleteModal${data}"><i class="fas fa-fw fa-trash"></i></a>
                                 
                                     <div class="modal fade" id="deleteModal${data}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel${data}" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -74,7 +74,7 @@
                                                     <div class="modal-body">Are you sure, you want delete it?</div>
                                                     <div class="modal-footer">
                                                         <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
-                                                        <a class="btn btn-primary" href="/users/delete/${data}">Yes</a>
+                                                        <a class="btn btn-primary" href="/units/delete/${data}">Yes</a>
                                                     </div>
                                                 </div>
                                         </div>

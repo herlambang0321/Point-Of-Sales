@@ -78,7 +78,6 @@ module.exports = function (db) {
       const addUsers = await db.query('insert into users (email, name, password, role) values($1, $2, $3, $4)', [email, name, hash, role])
       res.redirect('/users')
     } catch (err) {
-      console.log(err)
       res.send(err)
     }
   })
@@ -114,7 +113,6 @@ module.exports = function (db) {
 
       res.redirect('/users')
     } catch (err) {
-      console.log(err)
       res.send(err)
     }
   });
