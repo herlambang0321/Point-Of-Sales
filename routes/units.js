@@ -6,12 +6,12 @@ const { isLoggedIn } = require('../helpers/util');
 /* GET units listing. */
 module.exports = function (db) {
 
-  router.get('/', isLoggedIn, function (req, res, next) {
+  router.get('/', isLoggedIn, async function (req, res, next) {
     try {
-      // const { rows } = await db.query('select * from users')
+      const { rows } = await db.query('select * from units')
 
       res.render('units/list', {
-        // rows,
+        rows,
         user: req.session.user,
         successMessage: req.flash('successMessage'),
         path: req.originalUrl,
@@ -26,7 +26,7 @@ module.exports = function (db) {
     let params = []
 
     if (req.query.search.value) {
-      params.push(`units ilike '%${req.query.search.value}%'`)
+      params.push(`unit ilike '%${req.query.search.value}%'`)
     }
     if (req.query.search.value) {
       params.push(`name ilike '%${req.query.search.value}%'`)
@@ -53,7 +53,6 @@ module.exports = function (db) {
 
   router.get('/add', isLoggedIn, async function (req, res, next) {
     try {
-
       res.render('units/add', {
         rows: {},
         user: req.session.user,
@@ -68,13 +67,45 @@ module.exports = function (db) {
   router.post('/add', isLoggedIn, async function (req, res, next) {
     try {
       const { unit, name, note } = req.body
-
       const { rows } = await db.query('insert into units (unit, name, note) values($1, $2, $3)', [unit, name, note])
       res.redirect('/units')
     } catch (err) {
       res.send(err)
     }
   })
+
+  router.get('/edit/:unit', isLoggedIn, async function (req, res, next) {
+    try {
+      const { rows } = await db.query('select * from units where unit = $1', [req.params.unit])
+      res.render('units/edit', {
+        data: rows[0],
+        user: req.session.user,
+        path: req.originalUrl,
+        title: 'POS Units'
+      })
+    } catch (err) {
+      res.send(err)
+    }
+  })
+
+  router.post('/edit/:unit', isLoggedIn, async function (req, res, next) {
+    try {
+      const { name, note } = req.body
+      const { rows } = await db.query('update units set name = $1, note = $2 where unit = $3', [name, note, req.params.unit])
+      res.redirect('/units')
+    } catch (err) {
+      res.send(err)
+    }
+  })
+
+  router.get('/delete/:unit', isLoggedIn, async function (req, res, next) {
+    try {
+      const { rows } = await db.query('delete from units where unit = $1', [req.params.unit])
+      res.redirect('/units')
+    } catch (err) {
+      res.send(err)
+    }
+  });
 
   return router;
 }
