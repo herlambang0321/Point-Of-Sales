@@ -48,5 +48,21 @@ module.exports = function (db) {
         res.json(response)
     })
 
+    router.get('/add', isLoggedIn, async function (req, res, next) {
+        try {
+            const units = await db.query('select * from units order by unit')
+
+          res.render('goods/add', {
+            data: {},
+            units: units.rows,
+            user: req.session.user,
+            path: req.originalUrl,
+            title: 'POS Goods'
+          })
+        } catch (err) {
+          res.send(err)
+        }
+      })
+
     return router;
 }
