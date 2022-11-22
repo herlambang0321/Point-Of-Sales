@@ -52,17 +52,44 @@ module.exports = function (db) {
         try {
             const units = await db.query('select * from units order by unit')
 
-          res.render('goods/add', {
-            data: {},
-            units: units.rows,
-            user: req.session.user,
-            path: req.originalUrl,
-            title: 'POS Goods'
-          })
+            res.render('goods/add', {
+                data: {},
+                units: units.rows,
+                user: req.session.user,
+                path: req.originalUrl,
+                title: 'POS Goods'
+            })
         } catch (err) {
-          res.send(err)
+            res.send(err)
         }
-      })
+    })
+
+    router.post('/add', isLoggedIn, async function (req, res, next) {
+        try {
+            let file;
+            let uploadPath;
+
+            if (!req.files || Object.keys(req.files).length === 0) {
+                return res.status(400).send('No files were uploaded.');
+            }
+
+            // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+            file = req.files.sampleFile;
+            const fileName = `${Date.now()}-${file.name}`
+            uploadPath = path.join(__dirname, '..', 'public', 'images', 'uploadgoods', fileName);
+
+            // Use the mv() method to place the file somewhere on your server
+            file.mv(uploadPath)
+
+            const { barcode, name, stock, purchaseprice, sellingprice, unit } = req.body
+
+            const { rows } = await db.query('insert into goods (barcode, name, stock, purchaseprice, sellingprice, unit, picture) values ($1, $2, $3, $4, $5, $6, $7)', [barcode, name, stock, purchaseprice, sellingprice, unit, fileName])
+
+            res.redirect('/goods')
+        } catch (err) {
+            res.send(err)
+        }
+    });
 
     return router;
 }

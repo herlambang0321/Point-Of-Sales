@@ -63,11 +63,24 @@
                     { "data": "name" },
                     { "data": "stock" },
                     { "data": "unit" },
-                    { "data": "purchaseprice" },
-                    { "data": "sellingprice" },
-                    { 
+                    {
+                        "data": "purchaseprice",
+                        render: function (data, type) {
+                            return currencyFormatter.format(data)
+                        }
+                    },
+                    {
+                        "data": "sellingprice",
+                        render: function (data, type) {
+                            return currencyFormatter.format(data)
+                        }
+                    },
+                    {
                         "data": "picture",
-                        orderable: false 
+                        orderable: false,
+                        render: function (data, type) {
+                            return `<img src="/images/uploadgoods/${data}" alt="" width="100" />`
+                        }
                     },
                     {
                         data: "barcode",
