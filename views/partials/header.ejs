@@ -78,14 +78,16 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">GOODS UTILITIES :</h6>
-                        <a class="collapse-item<%= path.startsWith('/goods') ? ' active' : '' %>" href="/goods">Goods</a>
-                        <a class="collapse-item<%= path.startsWith('/units') ? ' active' : '' %>" href="/units">Units</a>
+                        <a class="collapse-item<%= path.startsWith('/goods') ? ' active' : '' %>"
+                            href="/goods">Goods</a>
+                        <a class="collapse-item<%= path.startsWith('/units') ? ' active' : '' %>"
+                            href="/units">Units</a>
                     </div>
                 </div>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" aria-expanded="true" aria-controls="collapseSuppliers">
+            <li class="nav-item<%= path.startsWith('/suppliers') ? ' active' : '' %>">
+                <a class="nav-link collapsed" href="/suppliers" aria-expanded="true" aria-controls="collapseSuppliers">
                     <i class="fas fa-fw fa-link"></i>
                     <span>Suppliers</span>
                 </a>
