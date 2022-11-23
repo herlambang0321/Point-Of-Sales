@@ -50,11 +50,11 @@ module.exports = function (db) {
 
     router.get('/add', isLoggedIn, async function (req, res, next) {
         try {
-            const units = await db.query('select * from units order by unit')
+            const { rows: units } = await db.query('select * from units')
 
             res.render('goods/add', {
                 data: {},
-                units: units.rows,
+                units,
                 user: req.session.user,
                 path: req.originalUrl,
                 title: 'POS Goods'
@@ -90,6 +90,47 @@ module.exports = function (db) {
             res.send(err)
         }
     });
+
+    router.get('/edit/:barcode', isLoggedIn, async function (req, res, next) {
+        try {
+            const { rows } = await db.query('select * from goods where barcode = $1', [req.params.barcode])
+            const { rows: units } = await db.query('SELECT * FROM units')
+            res.render('goods/edit', {
+                data: rows[0],
+                units,
+                user: req.session.user,
+                path: req.originalUrl,
+                title: 'POS Goods'
+            })
+        } catch (err) {
+            res.send(err)
+        }
+    })
+
+    router.post('/edit/:barcode', isLoggedIn, async function (req, res, next) {
+        try {
+            const { name, stock, purchaseprice, sellingprice, unit } = req.body
+
+            let file;
+            let uploadPath;
+
+            if (!req.files || Object.keys(req.files).length === 0) {
+                await db.query('update goods set name=$1, stock=$2, purchaseprice=$3, sellingprice=$4, unit=$5 WHERE barcode=$6',
+                    [name, stock, purchaseprice, sellingprice, unit, req.params.barcode])
+            } else {
+                // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+                file = req.files.sampleFile;
+                const fileName = `${Date.now()}-${file.name}`
+                uploadPath = path.join(__dirname, '..', 'public', 'images', 'uploadgoods', fileName);
+                file.mv(uploadPath)
+
+                await db.query('update goods set name=$1, stock=$2, purchaseprice=$3, sellingprice=$4, unit=$5, picture=$6 WHERE barcode=$7', [name, stock, purchaseprice, sellingprice, unit, fileName, req.params.barcode])
+            }
+            res.redirect('/goods')
+        } catch (err) {
+            res.send(err)
+        }
+    })
 
     return router;
 }
