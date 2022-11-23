@@ -132,5 +132,14 @@ module.exports = function (db) {
         }
     })
 
+    router.get('/delete/:barcode', isLoggedIn, async function (req, res, next) {
+        try {
+            const { rows } = await db.query('delete from goods where barcode = $1', [req.params.barcode])
+            res.redirect('/goods')
+        } catch (err) {
+            res.send(err)
+        }
+    });
+
     return router;
 }
