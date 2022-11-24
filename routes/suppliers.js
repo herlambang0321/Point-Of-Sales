@@ -81,5 +81,29 @@ module.exports = function (db) {
         }
     })
 
+    router.get('/edit/:supplierid', isLoggedIn, async function (req, res, next) {
+        try {
+            const { rows } = await db.query('select * from suppliers where supplierid = $1', [req.params.supplierid])
+            res.render('suppliers/edit', {
+                data: rows[0],
+                user: req.session.user,
+                path: req.originalUrl,
+                title: 'POS Suppliers'
+            })
+        } catch (err) {
+            res.send(err)
+        }
+    })
+
+    router.post('/edit/:supplierid', isLoggedIn, async function (req, res, next) {
+        try {
+            const { name, address, phone } = req.body
+            const { rows } = await db.query('update suppliers set name = $1, address = $2, phone = $3 where supplierid = $4', [name, address, phone, req.params.supplierid])
+            res.redirect('/suppliers')
+        } catch (err) {
+            res.send(err)
+        }
+    })
+
     return router;
 }
