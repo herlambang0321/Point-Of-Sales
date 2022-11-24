@@ -105,5 +105,15 @@ module.exports = function (db) {
         }
     })
 
+    router.get('/delete/:supplierid', isLoggedIn, async function (req, res, next) {
+        try {
+            const { rows } = await db.query('delete from suppliers where supplierid = $1', [req.params.supplierid])
+
+            res.redirect('/suppliers')
+        } catch (err) {
+            res.send(err)
+        }
+    });
+
     return router;
 }
