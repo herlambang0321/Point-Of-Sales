@@ -117,8 +117,8 @@
             </div>
 
             <!-- Nav Item - Purchases -->
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+            <li class="nav-item<%= path.startsWith('/purchases') ? ' active' : '' %>">
+                <a class="nav-link" href="/purchases">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Purchases</span></a>
             </li>
