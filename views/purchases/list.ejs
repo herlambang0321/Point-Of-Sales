@@ -10,7 +10,7 @@
         <!-- DataTables Purchases -->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <a href="/purchases/add" class="btn btn-primary btn-icon-split">
+                <a href="/purchases/create" class="btn btn-primary btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-fw fa-plus"></i>
                     </span>
@@ -55,8 +55,18 @@
                 "ajax": "/purchases/tablepurchase",
                 "columns": [
                     { "data": "invoice" },
-                    { "data": "time" },
-                    { "data": "totalsum" },
+                    {
+                        "data": "time",
+                        render: function (data, type) {
+                            return ` ${moment(data).format('DD MMM YYYY HH:mm:s')}`
+                        }
+                    },
+                    {
+                        "data": "totalsum",
+                        render: function (data, type) {
+                            return currencyFormatter.format(data)
+                        }
+                    },
                     { "data": "supplier" },
                     {
                         data: "invoice",
