@@ -47,5 +47,37 @@ module.exports = function (db) {
         res.json(response)
     })
 
+    router.get('/create', async function (req, res, next) {
+        try {
+            const { userid } = req.session.user
+            const { rows } = await db.query('INSERT INTO purchases(totalsum, operator) VALUES(0, $1) returning *', [userid])
+            res.redirect(`/purchases/show/${rows[0].invoice}`)
+        } catch (err) {
+            res.send(err)
+        }
+    });
+
+    router.get('/show/:invoice', isLoggedIn, async (req, res, next) => {
+        try {
+            const purchases = await db.query('SELECT p.*, s.* FROM purchases AS p LEFT JOIN suppliers as s ON p.supplier = s.supplierid where invoice = $1', [req.params.invoice])
+            const users = await db.query('SELECT * FROM users ORDER BY userid')
+            const { rows: goods } = await db.query('SELECT barcode, name FROM goods ORDER BY barcode')
+            const { rows } = await db.query('SELECT * FROM suppliers ORDER BY supplierid')
+
+            res.render('purchases/form', {
+                path: req.originalUrl,
+                title: 'POS Purchases',
+                user: req.session.user,
+                purchases: purchases.rows[0],
+                goods,
+                users,
+                supplier: rows,
+                moment,
+            })
+        } catch (err) {
+            res.send(err);
+        }
+    });
+
     return router;
 }

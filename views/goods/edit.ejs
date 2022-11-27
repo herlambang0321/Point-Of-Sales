@@ -85,7 +85,7 @@
                     <div class="mb-3 row">
                         <label for="picture" class="col-sm-2 col-form-label">Preview</label>
                         <div class="col-sm-10">
-                            <img src="/images/uploadgoods/<%= data.picture %>" class="img-thumbnail" alt="" width="300"
+                            <img id="previewImage" src="/images/uploadgoods/<%= data.picture %>" class="img-thumbnail" alt="" width="300"
                                 height="auto" />
                         </div>
                     </div>
@@ -114,10 +114,12 @@
     <!-- /.container-fluid -->
 
     <script>
-        $('.custom-file-input').on('change', function () {
-            let sampleFile = $(this).val().split('\\').pop();
-            $(this).next('.custom-file-label').addClass("selected").html(sampleFile);
-        });
+        picture.onchange = evt => {
+            const [file] = picture.files
+            if (file) {
+                previewImage.src = URL.createObjectURL(file)
+            }
+        }
     </script>
 
     </div>
