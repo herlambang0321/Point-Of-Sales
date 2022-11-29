@@ -73,7 +73,7 @@ module.exports = function (db) {
                 purchases: purchases.rows[0],
                 goods,
                 users,
-                supplier: rows,
+                suppliers: rows,
                 moment,
             })
         } catch (err) {

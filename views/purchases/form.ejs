@@ -14,18 +14,18 @@
             <div class="card-body">
                 <form id="start-form" class="row g-3">
                     <div class="col-md-4">
-                        <label for="no_invoice" class="form-label">Invoice</label>
-                        <input type="text" class="form-control" id="no_invoice" value="<%= purchases.invoice %>"
-                            readonly>
+                        <label for="invoice" class="form-label">Invoice</label>
+                        <input type="text" class="form-control" id="invoice" value="<%= purchases.invoice %>" readonly>
                     </div>
                     <div class="col-md-4">
                         <label for="time" class="form-label">Time</label>
-                        <input type="text" class="form-control" id="time"
+                        <input type="text" class="form-control" name="time" id="time"
                             value="<%= moment(purchases.time).format('DD MMM YYYY HH:mm:ss') %>" readonly>
                     </div>
                     <div class="col-md-4">
                         <label for="operator" class="form-label">Operator</label>
-                        <input type="text" class="form-control" id="operator" value="<%= user.name %>" readonly>
+                        <input type="text" class="form-control" name="Operator" id="operator" value="<%= user.name %>"
+                            readonly>
                     </div>
                 </form>
             </div>
@@ -35,7 +35,6 @@
                     <div class="col-md-4 py-3">
                         <label for="barcode" class="form-label">Goods Barcode</label>
                         <select name="barcode" id="barcode" class="form-control">
-                            <!-- <option value="">Choose barcode product</option> -->
                             <% goods.forEach(item=> { %>
                                 <option value="<%= item.barcode %>">
                                     <%= item.barcode + ' - ' + item.name %>
@@ -45,23 +44,23 @@
                     </div>
                     <div class="col-md-4 py-3">
                         <label for="name" class="form-label">Goods Name</label>
-                        <input type="text" class="form-control" id="name" readonly>
+                        <input type="text" class="form-control" name="name" id="name" readonly>
                     </div>
                     <div class="col-md-4 py-3">
                         <label for="stock" class="form-label">Stock</label>
-                        <input type="text" class="form-control" id="stock" readonly>
+                        <input type="text" class="form-control" name="stock" id="stock" readonly>
                     </div>
                     <div class="col-md-4 py-3">
                         <label for="purchaseprice" class="form-label">Purchase Price</label>
-                        <input type="text" class="form-control" id="purchaseprice">
+                        <input type="text" class="form-control" name="purchaseprice" id="purchaseprice">
                     </div>
                     <div class="col-md-4 py-3">
                         <label for="quantity" class="form-label">Qty</label>
-                        <input type="text" class="form-control" id="quantity">
+                        <input type="text" class="form-control" name="quantity" id="quantity">
                     </div>
                     <div class="col-md-4 py-3">
                         <label for="ttotalprice" class="form-label">Total Price</label>
-                        <input type="text" class="form-control" id="totalprice">
+                        <input type="text" class="form-control" name="totalprice" id="totalprice">
                     </div>
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary btn-icon-split">
@@ -84,6 +83,7 @@
                             <th>Qty</th>
                             <th>Price</th>
                             <th>Total Price</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -96,21 +96,22 @@
                     <div class="row mb-3">
                         <label for="totalsum" class="col-sm-2 col-form-label">Total Summary</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="totalsum" name="totalsum" value="<%= purchases.totalsum %>"
-                                readonly>
+                            <input type="text" class="form-control" id="totalsum" name="totalsum"
+                                value="<%= purchases.totalsum %>" readonly>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label for="supplier" class="col-sm-2 col-form-label">Supplier</label>
                         <div class="col-sm-10">
                             <select type="text" class="form-control" id="supplier" name="supplier">
-                                <!-- <option value="<%= purchases.supplier %>">
+                                <option value="<%= purchases.supplier %>">
                                     <%= purchases.name %>
-                                </option> -->
-                                <% supplier.forEach(item=> { %>
+                                </option>
+                                <% suppliers.forEach(item=> { %>
                                     <option value="<%= item.supplierid %>">
                                         <%= item.name %>
-                                            <% }) %>
+                                    </option>
+                                    <% }) %>
                             </select>
                         </div>
                     </div>
@@ -193,7 +194,12 @@
                         <td>
                             ${currencyFormatter.format(item.totalprice)}
                         </td>
+                        <td>
+                            <a type="button" class="btn btn-danger rounded-circle"onclick="$('#modal-delete${item.id}').modal('show')"
+                            title="Delete" ><i class="fas fa-solid fa-trash"></i></a>
                         
+                            
+                        </td>
                     </tr>
                     `
                 })

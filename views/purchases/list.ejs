@@ -73,7 +73,7 @@
                         orderable: false,
                         render: function (data, type) {
                             return `
-                            <a href="purchases/edit/${data}" class="btn btn-success btn-circle btn-edit"><i class="fas fa-fw fa-info"></i></a>
+                            <a href="/purchases/show/${data}" class="btn btn-success btn-circle btn-edit"><i class="fas fa-fw fa-info"></i></a>
                             <a href="purchases/delete/${data}" class="btn btn-danger btn-circle btn-delete" data-toggle="modal" data-target="#deleteModal${data}"><i class="fas fa-fw fa-trash"></i></a>
                             
                                 <div class="modal fade" id="deleteModal${data}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel${data}" aria-hidden="true">
