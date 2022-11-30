@@ -96,8 +96,8 @@
             </li>
 
             </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" aria-expanded="true" aria-controls="collapseCustomers">
+            <li class="nav-item<%= path.startsWith('/customers') ? ' active' : '' %>">
+                <a class="nav-link collapsed" href="/customers" aria-expanded="true" aria-controls="collapseCustomers">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Customers</span>
                 </a>
