@@ -105,5 +105,15 @@ module.exports = function (db) {
         }
     })
 
+    router.get('/delete/:customerid', isLoggedIn, async function (req, res, next) {
+        try {
+            const { rows } = await db.query('delete from customers where customerid = $1', [req.params.customerid])
+
+            res.redirect('/customers')
+        } catch (err) {
+            res.send(err)
+        }
+    });
+
     return router;
 }
