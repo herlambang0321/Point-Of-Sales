@@ -176,32 +176,47 @@
                 let html = ''
                 data.forEach((item, index) => {
                     html += `
-                    <tr>
-                        <td>
-                            ${index + 1}
-                        </td>
-                        <td>
-                            ${item.itemcode}
-                        </td>
-                        <td>
-                            ${item.name}
-                        </td>
-                        <td>
-                            ${item.quantity}
-                        </td>
-                        <td>
-                            ${currencyFormatter.format(item.purchaseprice)}
-                        </td>
-                        <td>
-                            ${currencyFormatter.format(item.totalprice)}
-                        </td>
-                        <td>
-                            <a type="button" class="btn btn-danger rounded-circle"onclick="$('#modal-delete${item.id}').modal('show')"
-                            title="Delete" ><i class="fas fa-solid fa-trash"></i></a>
-                        
-                            
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                ${index + 1}
+                            </td>
+                            <td>
+                                ${item.itemcode}
+                            </td>
+                            <td>
+                                ${item.name}
+                            </td>
+                            <td>
+                                ${item.quantity}
+                            </td>
+                            <td>
+                                ${currencyFormatter.format(item.purchaseprice)}
+                            </td>
+                            <td>
+                                ${currencyFormatter.format(item.totalprice)}
+                            </td>
+                            <td>
+                                <a href="purchases/deleteitems/${item.id}" class="btn btn-danger btn-circle btn-delete" data-toggle="modal" data-target="#deleteModal${item.id}"><i class="fas fa-fw fa-trash"></i></a>
+                                
+                                <div class="modal fade" id="deleteModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel${item.id}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel${item.id}">Delete Confirmation</h5>
+                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                     <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                                <div class="modal-body">Are you sure, you want delete it?</div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
+                                                    <a class="btn btn-primary" href="/purchases/deleteitems/${item.id}">Yes</a>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
                     `
                 })
                 $('#detail-table tbody').html(html)
