@@ -51,5 +51,35 @@ module.exports = function (db) {
         res.json(response)
     })
 
+    router.get('/add', isLoggedIn, async function (req, res, next) {
+        try {
+            res.render('customers/add', {
+                rows: {},
+                user: req.session.user,
+                path: req.originalUrl,
+                title: 'POS Customers'
+            })
+        } catch (err) {
+            res.send(err)
+        }
+    })
+
+    router.post('/add', isLoggedIn, async function (req, res, next) {
+        try {
+            const { name, address, phone } = req.body
+            const { rows } = await db.query('select * from customers where name = $1', [name])
+            if (rows.length > 0) {
+                throw 'Customer already exist'
+            }
+
+            await db.query('insert into customers(name, address, phone) values($1, $2, $3)', [name, address, phone])
+            req.flash('successMessage', 'Customer created successfully')
+            res.redirect('/customers')
+        } catch (err) {
+            req.flash('error', err)
+            return res.redirect('/customers')
+        }
+    })
+
     return router;
 }
