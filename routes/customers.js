@@ -81,5 +81,29 @@ module.exports = function (db) {
         }
     })
 
+    router.get('/edit/:customerid', isLoggedIn, async function (req, res, next) {
+        try {
+            const { rows } = await db.query('select * from customers where customerid = $1', [req.params.customerid])
+            res.render('customers/edit', {
+                data: rows[0],
+                user: req.session.user,
+                path: req.originalUrl,
+                title: 'POS Customers'
+            })
+        } catch (err) {
+            res.send(err)
+        }
+    })
+
+    router.post('/edit/:customerid', isLoggedIn, async function (req, res, next) {
+        try {
+            const { name, address, phone } = req.body
+            const { rows } = await db.query('update customers set name = $1, address = $2, phone = $3 where customerid = $4', [name, address, phone, req.params.customerid])
+            res.redirect('/customers')
+        } catch (err) {
+            res.send(err)
+        }
+    })
+
     return router;
 }
