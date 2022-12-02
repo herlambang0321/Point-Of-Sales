@@ -84,13 +84,11 @@ module.exports = function (db) {
     router.post('/show/:invoice', isLoggedIn, async (req, res, next) => {
         try {
             const { totalsum, pay, change, customer } = req.body
-            const s = await db.query('UPDATE sales SET totalsum = $1, pay = $2, change = $3, customer = $4 WHERE invoice = $5', [totalsum, pay, change, customer, req.params.invoice])
-            console.log(s);
+            await db.query('UPDATE sales SET totalsum = $1, pay = $2, change = $3, customer = $4 WHERE invoice = $5', [totalsum, pay, change, customer, req.params.invoice])
 
             req.flash('successMessage', 'Transaction Success!')
             res.redirect('/sales')
         } catch (error) {
-            console.log(error);
             req.flash('error', 'Transaction Fail!')
             return res.redirect('/sales')
         }
