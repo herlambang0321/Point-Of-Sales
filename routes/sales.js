@@ -127,5 +127,27 @@ module.exports = function (db) {
         }
     });
 
+    router.get('/delete/:invoice', isLoggedIn, async (req, res, next) => {
+        try {
+            const { rows } = await db.query('DELETE FROM sales WHERE invoice = $1', [req.params.invoice])
+            req.flash('successMessage', 'Transaction deleted successfully')
+            res.redirect('/sales');
+        } catch (err) {
+            req.flash('error', 'Please, Edit and Delete items first ')
+            return res.redirect('/sales')
+        }
+    });
+
+    router.get('/deleteitems/:id', isLoggedIn, async (req, res, next) => {
+        try {
+            const { rows: data } = await db.query('DELETE FROM saleitems WHERE id = $1 returning *', [req.params.id])
+            req.flash('success', 'Transaction deleted successfully')
+            res.redirect(`/sales/show/${data[0].invoice}`)
+        } catch (err) {
+            req.flash('error', 'Please, Edit and Delete items first ')
+            return res.redirect(`/sales/show/${data[0].invoice}`)
+        }
+    });
+
     return router;
 }
