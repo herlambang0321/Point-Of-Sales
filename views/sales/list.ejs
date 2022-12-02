@@ -1,0 +1,123 @@
+<%- include('../partials/header')%>
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-2 text-gray-800">Sales</h1>
+        <p class="mb-4">This is data of Sales</p>
+
+        <!-- DataTables Sales -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <a href="/sales/create" class="btn btn-primary btn-icon-split">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-fw fa-plus"></i>
+                    </span>
+                    <span class="text">Add</span>
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Invoice</th>
+                                <th>Time</th>
+                                <th>Total Summary</th>
+                                <th>Pay</th>
+                                <th>Change</th>
+                                <th>Customer</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>Invoice</th>
+                                <th>Time</th>
+                                <th>Total Summary</th>
+                                <th>Pay</th>
+                                <th>Change</th>
+                                <th>Customer</th>
+                                <th>Action</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+                "lengthMenu": [[3, 10, 100], [3, 10, 100]],
+                "processing": true,
+                "serverSide": true,
+                "ajax": "/sales/tablesale",
+                "columns": [
+                    { "data": "invoice" },
+                    {
+                        "data": "time",
+                        render: function (data, type) {
+                            return ` ${moment(data).format('DD MMM YYYY HH:mm:s')}`
+                        }
+                    },
+                    {
+                        "data": "totalsum",
+                        render: function (data, type) {
+                            return currencyFormatter.format(data)
+                        }
+                    },
+                    {
+                        "data": "pay",
+                        render: function (data, type) {
+                            return currencyFormatter.format(data)
+                        }
+                    },
+                    {
+                        "data": "change",
+                        render: function (data, type) {
+                            return currencyFormatter.format(data)
+                        }
+                    },
+                    { "data": "name" },
+                    {
+                        data: "invoice",
+                        orderable: false,
+                        render: function (data, type) {
+                            return `
+                            <a href="/sales/show/${data}" class="btn btn-info btn-circle btn-edit"><i class="fas fa-info-circle"></i></a>
+                            <a href="sales/delete/${data}" class="btn btn-danger btn-circle btn-delete" data-toggle="modal" data-target="#deleteModal${data}"><i class="fas fa-trash"></i></a>
+                            
+                                <div class="modal fade" id="deleteModal${data}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel${data}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel${data}">Delete Confirmation</h5>
+                                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">×</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">Are you sure, you want delete it?</div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
+                                                    <a class="btn btn-primary" href="/sales/delete/${data}">Yes</a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            `
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+
+    </div>
+    <!-- End of Main Content -->
+
+    <%- include('../partials/footer')%>
