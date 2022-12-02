@@ -4,7 +4,7 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Purchases</h1>
+        <h1 class="h3 mb-2 text-gray-800">Sales</h1>
 
         <div class="card">
             <div class="card-header">
@@ -15,12 +15,12 @@
                 <form id="start-form" class="row g-3">
                     <div class="col-md-4">
                         <label for="invoice" class="form-label">Invoice</label>
-                        <input type="text" class="form-control" id="invoice" value="<%= purchases.invoice %>" readonly>
+                        <input type="text" class="form-control" id="invoice" value="<%= sales.invoice %>" readonly>
                     </div>
                     <div class="col-md-4">
                         <label for="time" class="form-label">Time</label>
                         <input type="text" class="form-control" name="time" id="time"
-                            value="<%= moment(purchases.time).format('DD MMM YYYY HH:mm:ss') %>" readonly>
+                            value="<%= moment(sales.time).format('DD MMM YYYY HH:mm:ss') %>" readonly>
                     </div>
                     <div class="col-md-4">
                         <label for="operator" class="form-label">Operator</label>
@@ -51,8 +51,8 @@
                         <input type="text" class="form-control" name="stock" id="stock" readonly>
                     </div>
                     <div class="col-md-4 py-3">
-                        <label for="purchaseprice" class="form-label">Purchase Price</label>
-                        <input type="text" class="form-control" name="purchaseprice" id="purchaseprice">
+                        <label for="sellingprice" class="form-label">Selling Price</label>
+                        <input type="text" class="form-control" name="sellingprice" id="sellingprice">
                     </div>
                     <div class="col-md-4 py-3">
                         <label for="quantity" class="form-label">Qty</label>
@@ -97,19 +97,32 @@
                         <label for="totalsum" class="col-sm-2 col-form-label">Total Summary</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="totalsum" name="totalsum"
-                                value="<%= purchases.totalsum %>"
-                                readonly>
+                                value="<%= sales.totalsum %>" readonly>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="supplier" class="col-sm-2 col-form-label">Supplier</label>
+                        <label for="pay" class="col-sm-2 col-form-label">Pay</label>
                         <div class="col-sm-10">
-                            <select type="text" class="form-control" id="supplier" name="supplier" required>
-                                <option value="<%= purchases.supplier %>">
-                                    <%= purchases.name %>
+                            <input type="text" class="form-control" id="pay" name="pay" value="<%= sales.pay %>">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="change" class="col-sm-2 col-form-label">Change</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="change" name="change"
+                                value="<%= sales.change %>" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="customer" class="col-sm-2 col-form-label">Customer</label>
+                        <div class="col-sm-10">
+                            <select type="text" class="form-control" id="customer" name="customer" required>
+                                <option value="<%= sales.customer %>">
+                                    <%= sales.name %>
+                                    <!-- <%=sales.name ? sales.name : "Choose Customers" %> -->
                                 </option>
-                                <% suppliers.forEach(item=> { %>
-                                    <option value="<%= item.supplierid %>">
+                                <% customers.forEach(item=> { %>
+                                    <option value="<%= item.customerid %>">
                                         <%= item.name %>
                                     </option>
                                     <% }) %>
@@ -123,7 +136,7 @@
                         <span class="text">Finish</span>
                     </button>
 
-                    <a href="/purchases" class="btn btn-warning btn-icon-split">
+                    <a href="/sales" class="btn btn-warning btn-icon-split">
                         <span class="icon text-white-50">
                             <i class="fas fa-arrow-left"></i>
                         </span>
@@ -137,17 +150,17 @@
     <!-- /.container-fluid -->
 
     <script>
-        let invoice = '<%= purchases.invoice %>';
+        let invoice = '<%= sales.invoice %>';
 
         $(document).ready(function () {
             readDetails()
             //munculin detail barang ketika dipiih barcode
             $('#barcode').change(function () {
                 const barcode = $(this).val()
-                $.get(`/purchases/goods/${barcode}`).done(function (data) {
+                $.get(`/sales/goods/${barcode}`).done(function (data) {
                     $('#name').val(data.name)
                     $('#stock').val(data.stock)
-                    $('#purchaseprice').val(data.purchaseprice)
+                    $('#sellingprice').val(data.sellingprice)
                     $('#quantity').val(0)
                     $('#totalprice').val(data.totalprice)
                 })
@@ -155,24 +168,32 @@
 
             $('#quantity').keyup(function () {
                 const quantity = $(this).val()
-                const purchaseprice = $('#purchaseprice').val()
-                $('#totalprice').val(currencyFormatter.format(purchaseprice * quantity))
+                const sellingprice = $('#sellingprice').val()
+                $('#totalprice').val(currencyFormatter.format(sellingprice * quantity))
+            })
+
+            $('#pay').keyup(() => {
+                const pay = $('#pay').val()
+                const totalsum = $('#totalsum').val()
+                $('#change').val(pay - totalsum)
             })
 
             $('#detail-form').submit(function (e) {
                 e.preventDefault();
                 const itemcode = $('#barcode').val()
                 const quantity = $('#quantity').val()
-                $.post('/purchases/additem', { invoice, itemcode, quantity }).done(function (data) {
+                $.post('/sales/additem', { invoice, itemcode, quantity }).done(function (data) {
                     readDetails()
-                    $('#totalsum').val((data.totalsum))
+                    $('#totalsum').val(data.totalsum)
+                    $('#pay').val(data.pay)
+                    $('#change').val(data.change)
                 })
             })
 
         });
 
         const readDetails = () => {
-            $.get(`/purchases/details/${invoice}`).done(function (data) {
+            $.get(`/sales/details/${invoice}`).done(function (data) {
                 let html = ''
                 data.forEach((item, index) => {
                     html += `
@@ -190,13 +211,13 @@
                                 ${item.quantity}
                             </td>
                             <td>
-                                ${currencyFormatter.format(item.purchaseprice)}
+                                ${currencyFormatter.format(item.sellingprice)}
                             </td>
                             <td>
                                 ${currencyFormatter.format(item.totalprice)}
                             </td>
                             <td>
-                                <a href="purchases/deleteitems/${item.id}" class="btn btn-danger btn-circle btn-delete" data-toggle="modal" data-target="#deleteModal${item.id}"><i class="fas fa-trash"></i></a>
+                                <a href="sales/deleteitems/${item.id}" class="btn btn-danger btn-circle btn-delete" data-toggle="modal" data-target="#deleteModal${item.id}"><i class="fas fa-trash"></i></a>
                                 
                                 <div class="modal fade" id="deleteModal${item.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel${item.id}" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -210,7 +231,7 @@
                                                 <div class="modal-body">Are you sure, you want delete it?</div>
                                                     <div class="modal-footer">
                                                         <button class="btn btn-secondary" type="button" data-dismiss="modal">No</button>
-                                                    <a class="btn btn-primary" href="/purchases/deleteitems/${item.id}">Yes</a>
+                                                    <a class="btn btn-primary" href="/sales/deleteitems/${item.id}">Yes</a>
                                                 </div>
                                         </div>
                                     </div>
