@@ -35,7 +35,7 @@ module.exports = function (db) {
 
       req.session.user = rows[0]
 
-      res.redirect('/dashboard')
+      res.redirect('/dashboards')
 
     } catch (err) {
       res.send(err)
@@ -70,13 +70,13 @@ module.exports = function (db) {
     })
   })
 
-  router.get('/dashboard', isLoggedIn, function (req, res, next) {
-    res.render('dashboard', {
-      user: req.session.user,
-      path: req.originalUrl,
-      title: 'POS Dashboard'
-    })
-  })
+  // router.get('/dashboard', isLoggedIn, function (req, res, next) {
+  //   res.render('dashboard', {
+  //     user: req.session.user,
+  //     path: req.originalUrl,
+  //     title: 'POS Dashboard'
+  //   })
+  // })
 
   return router;
 }

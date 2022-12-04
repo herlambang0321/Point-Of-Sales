@@ -10298,12 +10298,13 @@
 		 *
 		 *  @name DataTable.defaults.columnDefs
 		 */
-		"aoColumnDefs": [
-			{
-			   bSortable: false,
-			   aTargets: [ -1 ]
-			}
-		  ],
+		 "aoColumnDefs": null,
+		// "aoColumnDefs": [
+		// 	{
+		// 	   bSortable: false,
+		// 	   aTargets: [ -1 ]
+		// 	}
+		//   ],
 	
 	
 		/**

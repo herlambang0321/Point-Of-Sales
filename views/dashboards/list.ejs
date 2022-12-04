@@ -1,4 +1,4 @@
-<%- include('./partials/header')%>
+<%- include('../partials/header')%>
 
     <!-- Begin Page Content -->
     <div class="container-fluid">
@@ -12,39 +12,41 @@
 
         <div class="card">
             <div class="card-header">
-                <h5 style="color: blue">Date Settings</h5>
+                <h6 class="m-0 font-weight-bold text-primary">Date Settings</h6>
             </div>
 
-            <div class="card-body">
-                <div class="row g-3">
-                    <div class="col-md-6 py-2">
-                        <label for="startdate" class="form-label">Start Date</label>
-                        <input type="date" class="form-control" id="startdate" name="startdate">
-                    </div>
-                    <div class="col-md-6 py-2">
-                        <label for="enddate" class="form-label">End Date</label>
-                        <input type="date" class="form-control" id="enddate" name="enddate">
+            <form action="" method="get">
+                <div class="card-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="startdate" class="form-label">Start Date</label>
+                            <input type="date" class="form-control" id="startdate" name="startdate">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="enddate" class="form-label">End Date</label>
+                            <input type="date" class="form-control" id="enddate" name="enddate">
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="card-footer">
-                <button type="submit" class="btn btn-success btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-check"></i>
-                    </span>
-                    <span class="text">Query</span>
-                </button>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-success btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-check"></i>
+                        </span>
+                        <span class="text">Query</span>
+                    </button>
 
-                <a href="/sales" class="btn btn-warning btn-icon-split">
-                    <span class="icon text-white-50">
-                        <i class="fas fa-arrow-left"></i>
-                    </span>
-                    <span class="text">Reset</span>
-                </a>
-            </div>
+                    <a href="/dashboards" class="btn btn-warning btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-arrow-left"></i>
+                        </span>
+                        <span class="text">Reset</span>
+                    </a>
+                </div>
+            </form>
         </div>
-        <br/>
+        <br />
 
         <!-- Content Row -->
         <div class="row">
@@ -57,7 +59,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     PURCHASES</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">Rp 715.000,00</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -75,7 +77,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                     SALES</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">Rp 859.000,00</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -93,7 +95,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                     EARNINGS</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">Rp 144.000,00</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -111,7 +113,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                     TOTAL SALES</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">4</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -194,10 +196,60 @@
             </div>
         </div>
 
+        <div class="card">
+            <div class="card-header">
+                <h6 class="m-0 font-weight-bold text-primary">Earnings Monthly Report</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Monthly</th>
+                                <th>Expense</th>
+                                <th>Revenue</th>
+                                <th>Earning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total</th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br />
+
     </div>
     <!-- /.container-fluid -->
+
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+                "lengthMenu": [[3, 10, 100], [3, 10, 100]],
+                // "processing": true,
+                // "serverSide": true
+                // "ajax": "/dashboards/tabledashboard",
+                // "columns": [
+                //     { "data": "monthly" },
+                //     { "data": "expense" },
+                //     { "data": "revenue" },
+                //     { "data": "earning" },
+                // ]
+            });
+        });
+
+    </script>
 
     </div>
     <!-- End of Main Content -->
 
-    <%- include('./partials/footer')%>
+    <%- include('../partials/footer')%>
