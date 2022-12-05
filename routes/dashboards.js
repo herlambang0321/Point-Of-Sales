@@ -8,12 +8,20 @@ const { currencyFormatter } = require('../public/javascripts/util')
 /* GET home page. */
 module.exports = function (db) {
 
-    router.get('/', isLoggedIn, function (req, res, next) {
+    router.get('/', isLoggedIn, async function (req, res, next) {
         try {
+            const { rows: purchases } = await db.query('SELECT sum(totalsum) AS total FROM purchases')
+            const { rows: sales } = await db.query('SELECT sum(totalsum) AS total FROM sales')
+            const { rows: salesTotal } = await db.query('SELECT COUNT(*) AS total FROM sales')
+
             res.render('dashboards/list', {
                 user: req.session.user,
                 path: req.originalUrl,
-                title: 'POS Dashboards'
+                title: 'POS Dashboards',
+                currencyFormatter,
+                purchases,
+                sales,
+                salesTotal
             })
         } catch (e) {
             res.send(e);
