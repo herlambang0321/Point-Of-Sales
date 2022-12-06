@@ -14,6 +14,31 @@ module.exports = function (db) {
             const { rows: sales } = await db.query('SELECT sum(totalsum) AS total FROM sales')
             const { rows: salesTotal } = await db.query('SELECT COUNT(*) AS total FROM sales')
 
+            const { rows: totalpurchase } = await db.query("SELECT to_char(time, 'Mon YY') AS monthly, to_char(time, 'YYMM') AS forsort, sum(totalsum) AS totalpurchases FROM purchases GROUP BY monthly, forsort ORDER BY forsort")
+            const { rows: totalsales } = await db.query("SELECT to_char(time, 'Mon YY') AS monthly, to_char(time, 'YYMM') AS forsort, sum(totalsum) AS totalsales FROM sales GROUP BY monthly, forsort ORDER BY forsort")
+
+            let getMonth = []
+
+            for (let i = 0; i < totalpurchase.length; i++) {
+                getMonth.push(totalpurchase[i].monthly)
+            }
+
+            let data = totalpurchase.concat(totalsales)
+            let newData = {}
+            let income = []
+
+            data.forEach(item => {
+                if (newData[item.forsort]) {
+                    newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense, revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue }
+                } else {
+                    newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : 0, revenue: item.totalsales ? item.totalsales : 0 }
+                }
+            });
+
+            for (const key in newData) {
+                income.push(newData[key])
+            }
+
             res.render('dashboards/list', {
                 user: req.session.user,
                 path: req.originalUrl,
@@ -21,35 +46,45 @@ module.exports = function (db) {
                 currencyFormatter,
                 purchases,
                 sales,
-                salesTotal
+                salesTotal,
+                query: req.query,
+                data: income
             })
         } catch (e) {
             res.send(e);
         }
     })
 
-    // router.get('/tabledashboard', async (req, res, next) => {
-    //     let params = []
+    router.get('/chart', isLoggedIn, async function (req, res, next) {
+        try {
+            const { rows: totalpurchase } = await db.query("SELECT to_char(time, 'Mon YY') AS monthly, to_char(time, 'YYMM') AS forsort, sum(totalsum) AS totalpurchases FROM purchases GROUP BY monthly, forsort ORDER BY forsort")
+            const { rows: totalsales } = await db.query("SELECT to_char(time, 'Mon YY') AS monthly, to_char(time, 'YYMM') AS forsort, sum(totalsum) AS totalsales FROM sales GROUP BY monthly, forsort ORDER BY forsort")
+            let getMonth = []
 
-    //     if (req.query.search.value) {
-    //         params.push(`monthly ilike '%${req.query.search.value}%'`)
-    //     }
-
-    //     const limit = req.query.length
-    //     const offset = req.query.start
-    //     const sortBy = req.query.columns[req.query.order[0].column].data
-    //     const sortMode = req.query.order[0].dir
-
-    //     const total = await db.query(`select count(*) as total from ${params.length > 0 ? ` where ${params.join(' or ')}` : ''}`)
-    //     const data = await db.query(`select * from ${params.length > 0 ? ` where ${params.join(' or ')}` : ''} order by ${sortBy} ${sortMode} limit ${limit} offset ${offset} `)
-    //     const response = {
-    //         "draw": Number(req.query.draw),
-    //         "recordsTotal": total.rows[0].total,
-    //         "recordsFiltered": total.rows[0].total,
-    //         "data": data.rows
-    //     }
-    //     res.json(response)
-    // })
+            for (let i = 0; i < totalpurchase.length; i++) {
+                getMonth.push(totalpurchase[i].monthly)
+            }
+            let data = totalpurchase.concat(totalsales)
+            let newData = {}
+            let income = []
+            data.forEach(item => {
+                if (newData[item.forsort]) {
+                    newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense, revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue }
+                } else {
+                    newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : 0, revenue: item.totalsales ? item.totalsales : 0 }
+                }
+            });
+            for (const key in newData) {
+                income.push(Number(newData[key].revenue - newData[key].expense))
+            }
+            res.json({
+                getMonth,
+                income
+            })
+        } catch (e) {
+            res.send(e);
+        }
+    })
 
     return router;
 }
