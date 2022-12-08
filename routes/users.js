@@ -152,5 +152,18 @@ module.exports = function (db) {
     }
   });
 
+  router.get('/changepassword', isLoggedIn, async function (req, res, next) {
+    try {
+      res.render('users/changepassword', {
+        user: req.session.user,
+        successMessage: req.flash('successMessage'),
+        path: req.originalUrl,
+        title: 'POS Change Password'
+      })
+    } catch (e) {
+      res.send(e);
+    }
+  });
+
   return router;
 }
