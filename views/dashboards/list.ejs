@@ -231,15 +231,15 @@
                                     <td>
                                         <%= item.monthly %>
                                     </td>
-                                    <td>
+                                    <td class="right-position">
                                         <%= new Intl.NumberFormat('id', { style: 'currency' , currency: 'IDR'
                                             }).format(item.expense) %>
                                     </td>
-                                    <td>
+                                    <td class="right-position">
                                         <%= new Intl.NumberFormat('id', { style: 'currency' , currency: 'IDR'
                                             }).format(item.revenue) %>
                                     </td>
-                                    <td>
+                                    <td class="right-position">
                                         <%= new Intl.NumberFormat('id', { style: 'currency' , currency: 'IDR'
                                             }).format(item.revenue - item.expense) %>
                                     </td>
@@ -250,20 +250,20 @@
                             <tr>
                                 <th>Total</th>
                                 <% purchases.forEach(item=> { %>
-                                    <th>
+                                    <th class="right-position">
                                         <%= new Intl.NumberFormat('id', { style: 'currency' , currency: 'IDR'
                                             }).format(item.total) %>
                                     </th>
                                     <% }) %>
                                         <% sales.forEach(item=> { %>
-                                            <th>
+                                            <th class="right-position">
                                                 <%= new Intl.NumberFormat('id', { style: 'currency' , currency: 'IDR'
                                                     }).format(item.total) %>
                                             </th>
                                             <% }) %>
                                                 <% purchases.forEach(purchases=> { %>
                                                     <% sales.forEach(sales=> { %>
-                                                        <th>
+                                                        <th class="right-position">
                                                             <%= new Intl.NumberFormat('id', { style: 'currency' ,
                                                                 currency: 'IDR' }).format(sales.total - purchases.total)
                                                                 %>
