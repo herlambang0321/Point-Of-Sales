@@ -124,9 +124,29 @@ module.exports = function (db) {
       res.render('users/profile', {
         data: rows[0],
         user: req.session.user,
+        successMessage: req.flash('successMessage'),
         path: req.originalUrl,
         title: 'POS Profile'
       })
+    } catch (err) {
+      res.send(err)
+    }
+  });
+
+  router.post('/profile', isLoggedIn, async function (req, res, next) {
+    try {
+      const { email, name } = req.body
+      await db.query('UPDATE users SET email = $1, name = $2 WHERE userid = $3 returning *', [email, name, req.session.user.userid])
+
+      const { rows: emails } = await db.query('SELECT * FROM users WHERE email = $1', [email])
+      const data = emails[0]
+
+      // Session save/update
+      req.session.user = data
+      req.session.save()
+
+      req.flash('successMessage', `your profile has been updated`)
+      res.redirect('/users/profile')
     } catch (err) {
       res.send(err)
     }
