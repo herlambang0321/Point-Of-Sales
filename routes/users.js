@@ -117,5 +117,20 @@ module.exports = function (db) {
     }
   });
 
+  router.get('/profile', isLoggedIn, async function (req, res, next) {
+    try {
+      const { rows } = await db.query('SELECT * FROM users WHERE userid = $1', [req.session.user.userid])
+
+      res.render('users/profile', {
+        data: rows[0],
+        user: req.session.user,
+        path: req.originalUrl,
+        title: 'POS Profile'
+      })
+    } catch (err) {
+      res.send(err)
+    }
+  });
+
   return router;
 }
