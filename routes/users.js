@@ -16,6 +16,7 @@ module.exports = function (db) {
         rows,
         user: req.session.user,
         successMessage: req.flash('successMessage'),
+        errorMessage: req.flash('errorMessage'),
         path: req.originalUrl,
         title: 'POS Users'
       });
@@ -125,6 +126,7 @@ module.exports = function (db) {
         data: rows[0],
         user: req.session.user,
         successMessage: req.flash('successMessage'),
+        errorMessage: req.flash('errorMessage'),
         path: req.originalUrl,
         title: 'POS Profile'
       })
@@ -146,7 +148,7 @@ module.exports = function (db) {
       req.session.save()
 
       req.flash('successMessage', `your profile has been updated`)
-      res.redirect('/users/profile')
+      res.redirect('users/profile')
     } catch (err) {
       res.send(err)
     }
@@ -157,13 +159,39 @@ module.exports = function (db) {
       res.render('users/changepassword', {
         user: req.session.user,
         successMessage: req.flash('successMessage'),
+        errorMessage: req.flash('errorMessage'),
         path: req.originalUrl,
         title: 'POS Change Password'
       })
-    } catch (e) {
-      res.send(e);
+    } catch (err) {
+      res.send(err)
     }
   });
+
+  router.post('/changepassword', isLoggedIn, async function (req, res, next) {
+    try {
+      const { oldpassword, newpassword, retypepassword } = req.body
+      const { rows } = await db.query('SELECT * FROM users WHERE userid = $1', [req.session.user.userid])
+
+      if (newpassword != retypepassword) {
+        req.flash('errorMessage', "retype password doesn't match")
+        return res.redirect('/users/changepassword')
+      }
+
+      if (!bcrypt.compareSync(oldpassword, rows[0].password)) {
+        req.flash('errorMessage', "your old password is wrong")
+        return res.redirect('/users/changepassword')
+      }
+
+      const hash = bcrypt.hashSync(newpassword, saltRounds)
+      await db.query('UPDATE users SET password = $1 WHERE userid = $2', [hash, req.session.user.userid])
+
+      req.flash('successMessage', 'your password has been updated')
+      res.redirect('/users/changepassword')
+    } catch (err) {
+      res.send(err)
+    }
+  })
 
   return router;
 }
