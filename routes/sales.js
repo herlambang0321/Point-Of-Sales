@@ -75,6 +75,7 @@ module.exports = function (db) {
                 users,
                 customers: rows,
                 moment,
+                currencyFormatter
             })
         } catch (err) {
             res.send(err);
