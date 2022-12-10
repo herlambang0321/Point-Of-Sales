@@ -24,7 +24,7 @@
                             <tr>
                                 <th>Invoice</th>
                                 <th>Time</th>
-                                <th>Total Summary</th>
+                                <th class="left-position-tabel">Total Summary</th>
                                 <th>Supplier</th>
                                 <th>Action</th>
                             </tr>
@@ -33,7 +33,7 @@
                             <tr>
                                 <th>Invoice</th>
                                 <th>Time</th>
-                                <th>Total Summary</th>
+                                <th class="left-position-tabel">Total Summary</th>
                                 <th>Supplier</th>
                                 <th>Action</th>
                             </tr>
@@ -63,6 +63,7 @@
                     },
                     {
                         "data": "totalsum",
+                        className: "right-position",
                         render: function (data, type) {
                             return currencyFormatter.format(data)
                         }

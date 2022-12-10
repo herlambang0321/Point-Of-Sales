@@ -24,9 +24,9 @@
                             <tr>
                                 <th>Invoice</th>
                                 <th>Time</th>
-                                <th>Total Summary</th>
-                                <th>Pay</th>
-                                <th>Change</th>
+                                <th class="left-position-tabel">Total Summary</th>
+                                <th class="left-position-tabel">Pay</th>
+                                <th class="left-position-tabel">Change</th>
                                 <th>Customer</th>
                                 <th>Action</th>
                             </tr>
@@ -35,9 +35,9 @@
                             <tr>
                                 <th>Invoice</th>
                                 <th>Time</th>
-                                <th>Total Summary</th>
-                                <th>Pay</th>
-                                <th>Change</th>
+                                <th class="left-position-tabel">Total Summary</th>
+                                <th class="left-position-tabel">Pay</th>
+                                <th class="left-position-tabel">Change</th>
                                 <th>Customer</th>
                                 <th>Action</th>
                             </tr>
@@ -67,18 +67,21 @@
                     },
                     {
                         "data": "totalsum",
+                        className: "right-position",
                         render: function (data, type) {
                             return currencyFormatter.format(data)
                         }
                     },
                     {
                         "data": "pay",
+                        className: "right-position",
                         render: function (data, type) {
                             return currencyFormatter.format(data)
                         }
                     },
                     {
                         "data": "change",
+                        className: "right-position",
                         render: function (data, type) {
                             return currencyFormatter.format(data)
                         }
