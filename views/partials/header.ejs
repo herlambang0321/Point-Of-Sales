@@ -61,90 +61,99 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item<%= path.startsWith('/dashboards') ? ' active' : '' %>">
-                <a class="nav-link" href="/dashboards">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
+            <% if(user.role==='Admin' ) { %>
+                <li class="nav-item<%= path.startsWith('/dashboards') ? ' active' : '' %>">
+                    <a class="nav-link" href="/dashboards">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a>
+                </li>
+                <% } %>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+                    <!-- Divider -->
+                    <hr class="sidebar-divider">
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                MASTER
-            </div>
-
-            <!-- Nav Item - Goods Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link" href="" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true"
-                    aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Goods Utilities</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">GOODS UTILITIES :</h6>
-                        <a class="collapse-item<%= path.startsWith('/goods') ? ' active' : '' %>"
-                            href="/goods">Goods</a>
-                        <a class="collapse-item<%= path.startsWith('/units') ? ' active' : '' %>"
-                            href="/units">Units</a>
+                    <!-- Heading -->
+                    <div class="sidebar-heading">
+                        MASTER
                     </div>
-                </div>
-            </li>
 
-            <li class="nav-item<%= path.startsWith('/suppliers') ? ' active' : '' %>">
-                <a class="nav-link" href="/suppliers" aria-expanded="true" aria-controls="collapseSuppliers">
-                    <i class="fas fa-fw fa-link"></i>
-                    <span>Suppliers</span>
-                </a>
-            </li>
+                    <!-- Nav Item - Goods Utilities Collapse Menu -->
+                    <% if(user.role==='Admin' ) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="" data-toggle="collapse" data-target="#collapseUtilities"
+                                aria-expanded="true" aria-controls="collapseUtilities">
+                                <i class="fas fa-fw fa-wrench"></i>
+                                <span>Goods Utilities</span>
+                            </a>
+                            <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                                data-parent="#accordionSidebar">
+                                <div class="bg-white py-2 collapse-inner rounded">
+                                    <h6 class="collapse-header">GOODS UTILITIES :</h6>
+                                    <a class="collapse-item<%= path.startsWith('/goods') ? ' active' : '' %>"
+                                        href="/goods">Goods</a>
+                                    <a class="collapse-item<%= path.startsWith('/units') ? ' active' : '' %>"
+                                        href="/units">Units</a>
+                                </div>
+                            </div>
+                        </li>
+                        <% } %>
 
-            </li>
-            <li class="nav-item<%= path.startsWith('/customers') ? ' active' : '' %>">
-                <a class="nav-link" href="/customers" aria-expanded="true" aria-controls="collapseCustomers">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Customers</span>
-                </a>
-            </li>
+                            <li class="nav-item<%= path.startsWith('/suppliers') ? ' active' : '' %>">
+                                <a class="nav-link" href="/suppliers" aria-expanded="true"
+                                    aria-controls="collapseSuppliers">
+                                    <i class="fas fa-fw fa-link"></i>
+                                    <span>Suppliers</span>
+                                </a>
+                            </li>
 
-            <li class="nav-item<%= path.startsWith('/users') ? ' active' : '' %>">
-                <a class="nav-link" href="/users" aria-expanded="true" aria-controls="collapseUsers">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>Users</span>
-                </a>
-            </li>
+                            </li>
+                            <li class="nav-item<%= path.startsWith('/customers') ? ' active' : '' %>">
+                                <a class="nav-link" href="/customers" aria-expanded="true"
+                                    aria-controls="collapseCustomers">
+                                    <i class="fas fa-fw fa-users"></i>
+                                    <span>Customers</span>
+                                </a>
+                            </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+                            <% if(user.role==='Admin' ) { %>
+                                <li class="nav-item<%= path.startsWith('/users') ? ' active' : '' %>">
+                                    <a class="nav-link" href="/users" aria-expanded="true"
+                                        aria-controls="collapseUsers">
+                                        <i class="fas fa-fw fa-user"></i>
+                                        <span>Users</span>
+                                    </a>
+                                </li>
+                                <% } %>
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Transactions
-            </div>
+                                    <!-- Divider -->
+                                    <hr class="sidebar-divider">
 
-            <!-- Nav Item - Purchases -->
-            <li class="nav-item<%= path.startsWith('/purchases') ? ' active' : '' %>">
-                <a class="nav-link" href="/purchases">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Purchases</span></a>
-            </li>
+                                    <!-- Heading -->
+                                    <div class="sidebar-heading">
+                                        Transactions
+                                    </div>
 
-            <!-- Nav Item - Sales -->
-            <li class="nav-item<%= path.startsWith('/sales') ? ' active' : '' %>">
-                <a class="nav-link" href="/sales">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Sales</span></a>
-            </li>
+                                    <!-- Nav Item - Purchases -->
+                                    <li class="nav-item<%= path.startsWith('/purchases') ? ' active' : '' %>">
+                                        <a class="nav-link" href="/purchases">
+                                            <i class="fas fa-fw fa-table"></i>
+                                            <span>Purchases</span></a>
+                                    </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
+                                    <!-- Nav Item - Sales -->
+                                    <li class="nav-item<%= path.startsWith('/sales') ? ' active' : '' %>">
+                                        <a class="nav-link" href="/sales">
+                                            <i class="fas fa-fw fa-chart-area"></i>
+                                            <span>Sales</span></a>
+                                    </li>
 
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
+                                    <!-- Divider -->
+                                    <hr class="sidebar-divider d-none d-md-block">
+
+                                    <!-- Sidebar Toggler (Sidebar) -->
+                                    <div class="text-center d-none d-md-inline">
+                                        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+                                    </div>
 
         </ul>
         <!-- End of Sidebar -->

@@ -2,8 +2,9 @@ module.exports = {
     isLoggedIn: (req, res, next) => {
         if (req.session && req.session.user) {
             return next()
+        } else {
+            res.redirect('/')
         }
-        res.redirect('/')
     },
     currencyFormatter: new Intl.NumberFormat('id', {
         style: 'currency',

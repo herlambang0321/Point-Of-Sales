@@ -34,9 +34,11 @@ module.exports = function (db) {
       }
 
       req.session.user = rows[0]
-
-      res.redirect('/dashboards')
-
+      if (req.session.user.role == 'Admin') {
+        res.redirect('/dashboards')
+      } else {
+        res.redirect('/sales')
+      }
     } catch (err) {
       res.send(err)
     }
