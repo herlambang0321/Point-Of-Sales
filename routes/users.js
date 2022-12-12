@@ -148,7 +148,7 @@ module.exports = function (db) {
       req.session.save()
 
       req.flash('successMessage', `your profile has been updated`)
-      res.redirect('users/profile')
+      res.redirect('/users/profile')
     } catch (err) {
       res.send(err)
     }
