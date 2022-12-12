@@ -52,6 +52,8 @@
 
     <script>
         $(document).ready(function () {
+            let getidUser = '<%= user.userid %>'
+
             $('#dataTable').DataTable({
                 "lengthMenu": [[3, 10, 100], [3, 10, 100]],
                 "processing": true,
@@ -115,7 +117,15 @@
                             `
                         }
                     }
-                ]
+                ],
+                "rowCallback": function (row, data, index) {
+                    if (data.operator != getidUser) {
+                        $('td', row).eq(6).css({
+                            'opacity': '0.5',
+                            'pointer-events': 'none'
+                        });
+                    }
+                }
             });
         });
     </script>
