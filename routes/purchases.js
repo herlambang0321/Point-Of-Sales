@@ -69,12 +69,14 @@ module.exports = function (db) {
             res.render('purchases/form', {
                 path: req.originalUrl,
                 title: 'POS Purchases',
+                successMessage: req.flash('successMessage'),
                 user: req.session.user,
                 purchases: purchases.rows[0],
                 goods,
                 users,
                 suppliers: rows,
                 moment,
+                currencyFormatter
             })
         } catch (err) {
             res.send(err);
@@ -132,7 +134,7 @@ module.exports = function (db) {
             req.flash('successMessage', 'Transaction deleted successfully')
             res.redirect('/purchases');
         } catch (err) {
-            req.flash('error', 'Please, Edit and Delete items first ')
+            req.flash('errorMessage', 'Please, Edit and Delete items first ')
             return res.redirect('/purchases')
         }
     });
@@ -140,10 +142,10 @@ module.exports = function (db) {
     router.get('/deleteitems/:id', isLoggedIn, async (req, res, next) => {
         try {
             const { rows: data } = await db.query('DELETE FROM purchaseitems WHERE id = $1 returning *', [req.params.id])
-            req.flash('success', 'Transaction deleted successfully')
+            req.flash('successMessage', 'Transaction deleted successfully')
             res.redirect(`/purchases/show/${data[0].invoice}`)
         } catch (err) {
-            req.flash('error', 'Please, Edit and Delete items first ')
+            req.flash('errorMessage', 'Please, Edit and Delete items first ')
             return res.redirect(`/purchases/show/${data[0].invoice}`)
         }
     });
