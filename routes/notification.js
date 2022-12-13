@@ -10,7 +10,6 @@ module.exports = function (db) {
             const { rows: notification } = await db.query('SELECT barcode, name, stock FROM goods WHERE stock <= 10')
             res.json(notification)
         } catch (err) {
-            console.log(err)
             res.send(err)
         }
     });
@@ -20,7 +19,6 @@ module.exports = function (db) {
             const { rows: count } = await db.query('SELECT COUNT(*) FROM goods WHERE stock <= 10')
             res.json(count)
         } catch (err) {
-            console.log(err)
             res.send(err)
         }
     });
