@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path')
-const { isLoggedIn } = require('../helpers/util');
+const { isAdmin } = require('../helpers/util');
 
 /* GET units listing. */
 module.exports = function (db) {
 
-  router.get('/', isLoggedIn, async function (req, res, next) {
+  router.get('/', isAdmin, async function (req, res, next) {
     try {
       const { rows } = await db.query('select * from units')
 
@@ -51,7 +51,7 @@ module.exports = function (db) {
     res.json(response)
   })
 
-  router.get('/add', isLoggedIn, async function (req, res, next) {
+  router.get('/add', isAdmin, async function (req, res, next) {
     try {
       res.render('units/add', {
         rows: {},
@@ -64,7 +64,7 @@ module.exports = function (db) {
     }
   })
 
-  router.post('/add', isLoggedIn, async function (req, res, next) {
+  router.post('/add', isAdmin, async function (req, res, next) {
     try {
       const { unit, name, note } = req.body
       const { rows } = await db.query('insert into units (unit, name, note) values($1, $2, $3)', [unit, name, note])
@@ -74,7 +74,7 @@ module.exports = function (db) {
     }
   })
 
-  router.get('/edit/:unit', isLoggedIn, async function (req, res, next) {
+  router.get('/edit/:unit', isAdmin, async function (req, res, next) {
     try {
       const { rows } = await db.query('select * from units where unit = $1', [req.params.unit])
       res.render('units/edit', {
@@ -88,7 +88,7 @@ module.exports = function (db) {
     }
   })
 
-  router.post('/edit/:unit', isLoggedIn, async function (req, res, next) {
+  router.post('/edit/:unit', isAdmin, async function (req, res, next) {
     try {
       const { name, note } = req.body
       const { rows } = await db.query('update units set name = $1, note = $2 where unit = $3', [name, note, req.params.unit])
@@ -98,7 +98,7 @@ module.exports = function (db) {
     }
   })
 
-  router.get('/delete/:unit', isLoggedIn, async function (req, res, next) {
+  router.get('/delete/:unit', isAdmin, async function (req, res, next) {
     try {
       const { rows } = await db.query('delete from units where unit = $1', [req.params.unit])
       res.redirect('/units')

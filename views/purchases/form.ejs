@@ -97,8 +97,7 @@
                         <label for="totalsum" class="col-sm-2 col-form-label">Total Summary</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="totalsum" name="totalsum"
-                                value="<%= purchases.totalsum %>"
-                                readonly>
+                                value="<%= purchases.totalsum %>" readonly>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -165,7 +164,7 @@
                 const quantity = $('#quantity').val()
                 $.post('/purchases/additem', { invoice, itemcode, quantity }).done(function (data) {
                     readDetails()
-                    $('#totalsum').val((data.totalsum))
+                    $('#totalsum').val(data.totalsum)
                 })
             })
 

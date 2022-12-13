@@ -6,6 +6,13 @@ module.exports = {
             res.redirect('/')
         }
     },
+    isAdmin: (req, res, next) => {
+        if (req.session && req.session.user == "Admin") {
+            return next()
+        } else {
+            res.redirect('/sales')
+        }
+    },
     currencyFormatter: new Intl.NumberFormat('id', {
         style: 'currency',
         currency: 'IDR',

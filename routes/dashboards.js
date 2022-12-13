@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path')
-const { isLoggedIn } = require('../helpers/util');
+const { isAdmin } = require('../helpers/util');
 const { currencyFormatter } = require('../public/javascripts/util')
 
 
 /* GET home page. */
 module.exports = function (db) {
 
-    router.get('/', isLoggedIn, async function (req, res, next) {
+    router.get('/', isAdmin, async function (req, res, next) {
         try {
             const { rows: purchases } = await db.query('SELECT sum(totalsum) AS total FROM purchases')
             const { rows: sales } = await db.query('SELECT sum(totalsum) AS total FROM sales')
@@ -55,7 +55,7 @@ module.exports = function (db) {
         }
     })
 
-    router.get('/chart', isLoggedIn, async function (req, res, next) {
+    router.get('/chart', isAdmin, async function (req, res, next) {
         try {
             const { startdate, enddate } = req.query
 

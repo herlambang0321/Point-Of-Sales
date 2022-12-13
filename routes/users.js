@@ -2,13 +2,13 @@ var express = require('express');
 var router = express.Router();
 var path = require('path')
 const bcrypt = require('bcrypt');
-const { isLoggedIn } = require('../helpers/util');
+const { isLoggedIn, isAdmin } = require('../helpers/util');
 const saltRounds = 10;
 
 /* GET users listing. */
 module.exports = function (db) {
 
-  router.get('/', isLoggedIn, async function (req, res, next) {
+  router.get('/', isAdmin, async function (req, res, next) {
     try {
       const { rows } = await db.query('select * from users')
 
@@ -51,7 +51,7 @@ module.exports = function (db) {
     res.json(response)
   })
 
-  router.get('/add', isLoggedIn, async function (req, res, next) {
+  router.get('/add', isAdmin, async function (req, res, next) {
     try {
 
       res.render('users/add', {
@@ -65,7 +65,7 @@ module.exports = function (db) {
     }
   })
 
-  router.post('/add', isLoggedIn, async function (req, res, next) {
+  router.post('/add', isAdmin, async function (req, res, next) {
     try {
       const { email, name, password, role } = req.body
 
@@ -83,7 +83,7 @@ module.exports = function (db) {
     }
   })
 
-  router.get('/edit/:userid', isLoggedIn, async function (req, res, next) {
+  router.get('/edit/:userid', isAdmin, async function (req, res, next) {
     try {
       const { rows } = await db.query('select * from users where userid = $1', [req.params.userid])
 
@@ -98,7 +98,7 @@ module.exports = function (db) {
     }
   })
 
-  router.post('/edit/:userid', isLoggedIn, async function (req, res, next) {
+  router.post('/edit/:userid', isAdmin, async function (req, res, next) {
     try {
       const { email, name, role } = req.body
       const { rows } = await db.query('update users set email = $1, name = $2, role = $3 where userid = $4', [email, name, role, req.params.userid])
@@ -108,7 +108,7 @@ module.exports = function (db) {
     }
   })
 
-  router.get('/delete/:userid', isLoggedIn, async function (req, res, next) {
+  router.get('/delete/:userid', isAdmin, async function (req, res, next) {
     try {
       const { rows } = await db.query('delete from users where userid = $1', [req.params.userid])
 
