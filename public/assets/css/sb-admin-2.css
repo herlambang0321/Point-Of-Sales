@@ -10861,7 +10861,7 @@ a:focus {
 }
 
 .bg-login-image {
-  background: url("https://rubicamp.com/assets/img/logo-dark.png");
+  background: url("/images/logo/logo-dark.png");
   background-color: #000;
   background-position: center;
   background-repeat: no-repeat;
@@ -10869,7 +10869,7 @@ a:focus {
 }
 
 .bg-register-image {
-  background: url("https://rubicamp.com/assets/img/logo-dark.png");
+  background: url("/images/logo/logo-dark.png");
   background-color: #000;
   background-position: center;
   background-repeat: no-repeat;
@@ -10877,7 +10877,7 @@ a:focus {
 }
 
 .bg-password-image {
-  background: url("https://rubicamp.com/assets/img/logo-dark.png");
+  background: url("/images/logo/logo-dark.png");
   background-position: center;
   background-size: cover;
 }
