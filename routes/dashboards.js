@@ -50,8 +50,8 @@ module.exports = function (db) {
                 query: req.query,
                 data: income
             })
-        } catch (e) {
-            res.send(e);
+        } catch (err) {
+            res.send(err);
         }
     })
 
@@ -191,8 +191,8 @@ module.exports = function (db) {
                     income
                 })
             }
-        } catch (error) {
-            res.send(error)
+        } catch (err) {
+            res.send(err)
         }
     })
 

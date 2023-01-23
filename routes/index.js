@@ -34,6 +34,8 @@ module.exports = function (db) {
       }
 
       req.session.user = rows[0]
+      delete rows[0].password
+      console.log(req.session.user);
       if (req.session.user.role == 'Admin') {
         res.redirect('/dashboards')
       } else {
@@ -71,14 +73,6 @@ module.exports = function (db) {
       res.redirect('/')
     })
   })
-
-  // router.get('/dashboard', isLoggedIn, function (req, res, next) {
-  //   res.render('dashboard', {
-  //     user: req.session.user,
-  //     path: req.originalUrl,
-  //     title: 'POS Dashboard'
-  //   })
-  // })
 
   return router;
 }

@@ -14,6 +14,7 @@ module.exports = function (db) {
                 rows,
                 user: req.session.user,
                 successMessage: req.flash('successMessage'),
+                errorMessage: req.flash('errorMessage'),
                 path: req.originalUrl,
                 title: 'POS Suppliers'
             });
@@ -56,6 +57,8 @@ module.exports = function (db) {
             res.render('suppliers/add', {
                 rows: {},
                 user: req.session.user,
+                successMessage: req.flash('successMessage'),
+                errorMessage: req.flash('errorMessage'),
                 path: req.originalUrl,
                 title: 'POS Suppliers'
             })
@@ -87,6 +90,8 @@ module.exports = function (db) {
             res.render('suppliers/edit', {
                 data: rows[0],
                 user: req.session.user,
+                successMessage: req.flash('successMessage'),
+                errorMessage: req.flash('errorMessage'),
                 path: req.originalUrl,
                 title: 'POS Suppliers'
             })

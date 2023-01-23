@@ -16,6 +16,7 @@ module.exports = function (db) {
                 rows,
                 user: req.session.user,
                 successMessage: req.flash('successMessage'),
+                errorMessage: req.flash('errorMessage'),
                 path: req.originalUrl,
                 title: 'POS Purchases',
                 currencyFormatter,
@@ -70,6 +71,7 @@ module.exports = function (db) {
                 path: req.originalUrl,
                 title: 'POS Purchases',
                 successMessage: req.flash('successMessage'),
+                errorMessage: req.flash('errorMessage'),
                 user: req.session.user,
                 purchases: purchases.rows[0],
                 goods,
@@ -90,8 +92,8 @@ module.exports = function (db) {
 
             req.flash('successMessage', 'Transaction Success!')
             res.redirect('/purchases')
-        } catch (error) {
-            req.flash('error', 'Transaction Fail!')
+        } catch (err) {
+            req.flash('errorMessage', 'Transaction Fail!')
             return res.redirect('/purchases')
         }
     });

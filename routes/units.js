@@ -14,6 +14,7 @@ module.exports = function (db) {
         rows,
         user: req.session.user,
         successMessage: req.flash('successMessage'),
+        errorMessage: req.flash('errorMessage'),
         path: req.originalUrl,
         title: 'POS Units'
       });
@@ -56,6 +57,8 @@ module.exports = function (db) {
       res.render('units/add', {
         rows: {},
         user: req.session.user,
+        successMessage: req.flash('successMessage'),
+        errorMessage: req.flash('errorMessage'),
         path: req.originalUrl,
         title: 'POS Units'
       })
@@ -80,6 +83,8 @@ module.exports = function (db) {
       res.render('units/edit', {
         data: rows[0],
         user: req.session.user,
+        successMessage: req.flash('successMessage'),
+        errorMessage: req.flash('errorMessage'),
         path: req.originalUrl,
         title: 'POS Units'
       })
