@@ -287,7 +287,15 @@
             readData()
 
             $('#dataTable').DataTable({
-                "lengthMenu": [[3, 10, 100], [3, 10, 100]]
+                "lengthMenu": [[3, 10, 100], [3, 10, 100]],
+                // "order": [[0]],
+                "aaSorting": [],
+                "columnDefs": [
+                    {
+                        "targets": [0],
+                        "orderable": false
+                    }
+                ]
             });
         });
 

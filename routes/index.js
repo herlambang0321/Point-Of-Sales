@@ -35,7 +35,6 @@ module.exports = function (db) {
 
       req.session.user = rows[0]
       delete rows[0].password
-      console.log(req.session.user);
       if (req.session.user.role == 'Admin') {
         res.redirect('/dashboards')
       } else {

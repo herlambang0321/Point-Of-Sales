@@ -10892,6 +10892,10 @@ form.user .form-control-user {
   padding: 1.5rem 1rem;
 }
 
+form.user .form-control-users {
+  border-radius: 10rem;
+}
+
 form.user .btn-user {
   font-size: 0.8rem;
   border-radius: 10rem;
