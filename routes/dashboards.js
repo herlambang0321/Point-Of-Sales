@@ -32,9 +32,17 @@ module.exports = function (db) {
 
                 data.forEach(item => {
                     if (newData[item.forsort]) {
-                        newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense, revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue }
+                        newData[item.forsort] = {
+                            monthly: item.monthly,
+                            expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense,
+                            revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue
+                        }
                     } else {
-                        newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : 0, revenue: item.totalsales ? item.totalsales : 0 }
+                        newData[item.forsort] = {
+                            monthly: item.monthly,
+                            expense: item.totalpurchases ? item.totalpurchases : 0,
+                            revenue: item.totalsales ? item.totalsales : 0
+                        }
                     }
                 });
 
@@ -73,9 +81,17 @@ module.exports = function (db) {
 
                 data.forEach(item => {
                     if (newData[item.forsort]) {
-                        newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense, revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue }
+                        newData[item.forsort] = {
+                            monthly: item.monthly,
+                            expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense,
+                            revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue
+                        }
                     } else {
-                        newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : 0, revenue: item.totalsales ? item.totalsales : 0 }
+                        newData[item.forsort] = {
+                            monthly: item.monthly,
+                            expense: item.totalpurchases ? item.totalpurchases : 0,
+                            revenue: item.totalsales ? item.totalsales : 0
+                        }
                     }
                 });
 
@@ -114,9 +130,17 @@ module.exports = function (db) {
 
                 data.forEach(item => {
                     if (newData[item.forsort]) {
-                        newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense, revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue }
+                        newData[item.forsort] = {
+                            monthly: item.monthly,
+                            expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense,
+                            revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue
+                        }
                     } else {
-                        newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : 0, revenue: item.totalsales ? item.totalsales : 0 }
+                        newData[item.forsort] = {
+                            monthly: item.monthly,
+                            expense: item.totalpurchases ? item.totalpurchases : 0,
+                            revenue: item.totalsales ? item.totalsales : 0
+                        }
                     }
                 });
 
@@ -155,9 +179,17 @@ module.exports = function (db) {
 
                 data.forEach(item => {
                     if (newData[item.forsort]) {
-                        newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense, revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue }
+                        newData[item.forsort] = {
+                            monthly: item.monthly,
+                            expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense,
+                            revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue
+                        }
                     } else {
-                        newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : 0, revenue: item.totalsales ? item.totalsales : 0 }
+                        newData[item.forsort] = {
+                            monthly: item.monthly,
+                            expense: item.totalpurchases ? item.totalpurchases : 0,
+                            revenue: item.totalsales ? item.totalsales : 0
+                        }
                     }
                 });
 
@@ -196,19 +228,31 @@ module.exports = function (db) {
                 for (let i = 0; i < totalpurchase.length; i++) {
                     getMonth.push(totalpurchase[i].monthly)
                 }
+
                 let data = totalpurchase.concat(totalsales)
                 let newData = {}
                 let income = []
+
                 data.forEach(item => {
                     if (newData[item.forsort]) {
-                        newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense, revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue }
+                        newData[item.forsort] = {
+                            monthly: item.monthly,
+                            expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense,
+                            revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue
+                        }
                     } else {
-                        newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : 0, revenue: item.totalsales ? item.totalsales : 0 }
+                        newData[item.forsort] = {
+                            monthly: item.monthly,
+                            expense: item.totalpurchases ? item.totalpurchases : 0,
+                            revenue: item.totalsales ? item.totalsales : 0
+                        }
                     }
                 });
+
                 for (const key in newData) {
                     income.push(Number(newData[key].revenue - newData[key].expense))
                 }
+
                 res.json({
                     direct,
                     member,
@@ -233,9 +277,17 @@ module.exports = function (db) {
 
                 data.forEach(item => {
                     if (newData[item.forsort]) {
-                        newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense, revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue }
+                        newData[item.forsort] = {
+                            monthly: item.monthly,
+                            expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense,
+                            revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue
+                        }
                     } else {
-                        newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : 0, revenue: item.totalsales ? item.totalsales : 0 }
+                        newData[item.forsort] = {
+                            monthly: item.monthly,
+                            expense: item.totalpurchases ? item.totalpurchases : 0,
+                            revenue: item.totalsales ? item.totalsales : 0
+                        }
                     }
                 });
 
@@ -267,9 +319,17 @@ module.exports = function (db) {
 
                 data.forEach(item => {
                     if (newData[item.forsort]) {
-                        newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense, revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue }
+                        newData[item.forsort] = {
+                            monthly: item.monthly,
+                            expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense,
+                            revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue
+                        }
                     } else {
-                        newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : 0, revenue: item.totalsales ? item.totalsales : 0 }
+                        newData[item.forsort] = {
+                            monthly: item.monthly,
+                            expense: item.totalpurchases ? item.totalpurchases : 0,
+                            revenue: item.totalsales ? item.totalsales : 0
+                        }
                     }
                 });
 
@@ -301,9 +361,17 @@ module.exports = function (db) {
 
                 data.forEach(item => {
                     if (newData[item.forsort]) {
-                        newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense, revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue }
+                        newData[item.forsort] = {
+                            monthly: item.monthly,
+                            expense: item.totalpurchases ? item.totalpurchases : newData[item.forsort].expense,
+                            revenue: item.totalsales ? item.totalsales : newData[item.forsort].revenue
+                        }
                     } else {
-                        newData[item.forsort] = { monthly: item.monthly, expense: item.totalpurchases ? item.totalpurchases : 0, revenue: item.totalsales ? item.totalsales : 0 }
+                        newData[item.forsort] = {
+                            monthly: item.monthly,
+                            expense: item.totalpurchases ? item.totalpurchases : 0,
+                            revenue: item.totalsales ? item.totalsales : 0
+                        }
                     }
                 });
 
